@@ -36,7 +36,7 @@ const SeedingReaction = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<number>(0);
   const [error, setError] = useState<number>(0);
-  const { register, handleSubmit } = useForm<Inputs>();
+  const { register, handleSubmit, reset } = useForm<Inputs>();
   const onGetID = async (link: string) => {
     const check = isNumeric(link);
     setLoading(true);
@@ -46,6 +46,7 @@ const SeedingReaction = () => {
           "https://page.vidieu.net/api/getid?link=" + link
         );
         setId(data.data);
+        reset({link: data.data})
       } catch (error) {
         setId("");
       }
@@ -86,7 +87,7 @@ const SeedingReaction = () => {
     setSuccess(0);
     setLoading(true);
     const token = data.listToken.split("\n");
-    await sendReactionsWithDelay(token, id, data);
+    await sendReactionsWithDelay(token, data.link, data);
     setLoading(false);
   };
   return (
@@ -132,11 +133,11 @@ const SeedingReaction = () => {
               <input
                 type="text"
                 {...register("link")}
-                onBlur={(e) => onGetID(e.target.value)}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Nhập link or id"
+                defaultValue={id}
+                onBlur={(e) => onGetID(e.target.value)}
               />
-              {id && <div className="py-2">Id bài viết: {id}</div>}
             </div>
           </div>
 
