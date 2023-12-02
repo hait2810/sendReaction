@@ -102,7 +102,7 @@ const SeedingReaction = () => {
               {...register("listToken")}
               rows={4}
               className="rounded-lg  bg-gray-50 border border-gray-300 w-full p-2.5 text-sm text-gray-900  dark:bg-gray-800  dark:text-white dark:placeholder-gray-400"
-              placeholder="Nhập list token"
+              placeholder="Nhập list token, mỗi token 1 dòng"
               required
             ></textarea>
             <label
