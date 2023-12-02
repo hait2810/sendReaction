@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import Loader from "../../components/Loader";
 
 const reactionType = {
   LOVE: "LOVE",
@@ -92,7 +91,6 @@ const SeedingReaction = () => {
   };
   return (
     <div>
-      {loading && <Loader />}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
           <div className=" bg-white rounded-t-lg dark:bg-gray-800">
