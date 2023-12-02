@@ -22,13 +22,15 @@ function getRandomReaction() {
   return reactionValues[randomIndex];
 }
 
-function isNumeric(str: string | number) {
-  if (typeof str != "string") return false; // we only process strings!
-  return (
-    !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
-    !isNaN(parseFloat(str))
-  ); // ...and ensure strings of whitespace fail
-}
+function isNumeric(str: string | number): boolean {
+    if (typeof str === "number") {
+      return !isNaN(str);
+    } else if (typeof str === "string") {
+      return !isNaN(parseFloat(str));
+    } else {
+      return false; // Return false for other types
+    }
+  }
 const SeedingReaction = () => {
   const [id, setId] = useState("");
   const [loading, setLoading] = useState(false);
@@ -37,6 +39,8 @@ const SeedingReaction = () => {
   const { register, handleSubmit } = useForm<Inputs>();
   const onGetID = async (link: string) => {
     const check = isNumeric(link);
+    console.log(check);
+    
     setLoading(true);
     if (!check) {
       try {
