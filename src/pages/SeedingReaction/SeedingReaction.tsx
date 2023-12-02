@@ -43,7 +43,7 @@ const SeedingReaction = () => {
     if (!check) {
       try {
         const { data } = await axios.get(
-          "http://page.vidieu.net/api/getid?link=" + link
+          "https://page.vidieu.net/api/getid?link=" + link
         );
         setId(data.data);
       } catch (error) {
