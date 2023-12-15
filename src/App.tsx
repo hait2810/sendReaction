@@ -14,7 +14,7 @@ function App() {
             {/* <Route path="*" element={<SeedingReaction />} /> */}
           <Route path="/" element={<Outlet />}>
             <Route index element={<SeedingReaction />} />
-            <Route path="checkxu" element={<CheckXu />} />
+            <Route path="/checkxu" element={<CheckXu />} />
           </Route>
         </Routes>
       </Suspense>
