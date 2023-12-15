@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-
 const reactionType = {
   LOVE: "LOVE",
   LIKE: "LIKE",
