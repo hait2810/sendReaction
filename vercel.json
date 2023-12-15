@@ -8,5 +8,11 @@
             "src": "/checkxu",
             "dest": "/checkxu"
         }
-    ]
+    ],
+    "rewrites": [
+        {
+          "source": "/checkxu",
+          "destination": "/path/to/your/checkxu/endpoint"
+        }
+      ]
 }
