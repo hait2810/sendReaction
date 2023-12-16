@@ -3,6 +3,7 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 interface Inputs {
   domain: string;
+  start: number;
   end: number;
 }
 const CheckXu = () => {
@@ -13,7 +14,7 @@ const CheckXu = () => {
     try {
       setLoading(true);
       const { data: response } = await axios.get(
-        `https://page.vidieu.net/api/checkxu?domain=${data.domain}&end=${data.end}`
+        `https://page.vidieu.net/api/checkxu?domain=${data.domain}&start=${data.start}&end=${data.end}`
       );
       setCoin(response.total);
       setLoading(false);
@@ -46,7 +47,22 @@ const CheckXu = () => {
               htmlFor="last_name"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Nhập Page
+              Nhập Page Bắt Đầu
+            </label>
+            <input
+              type="number"
+              {...register("start")}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Nhập page"
+              defaultValue={1}
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="last_name"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Nhập Page Kêt thúc
             </label>
             <input
               type="number"
