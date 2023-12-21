@@ -1,9 +1,12 @@
 import { Suspense, lazy } from "react";
-import { Routes, Route, Outlet } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Loader from "./components/Loader";
+import Header from "./components/Header";
 
 const SeedingReaction = lazy(() => import("./pages/SeedingReaction"));
 const CheckXu = lazy(() => import("./pages/CheckXu"));
+const ChuyenXu = lazy(() => import("./pages/ChuyenXu"));
+
 
 
 function App() {
@@ -12,9 +15,10 @@ function App() {
       <Suspense fallback={<Loader />}>
         <Routes>
             {/* <Route path="*" element={<SeedingReaction />} /> */}
-          <Route path="/" element={<Outlet />}>
+          <Route path="/" element={<Header />}>
             <Route index element={<SeedingReaction />} />
             <Route path="checkxu" element={<CheckXu />} />
+            <Route path="chuyenxu" element={< ChuyenXu/>} />
           </Route>
         </Routes>
       </Suspense>

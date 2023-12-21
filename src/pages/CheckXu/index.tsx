@@ -1,1 +1,1 @@
-export { default } from "./CheckXu";
+export { default } from "./Checkxu";
