@@ -35,6 +35,14 @@ const Header = () => {
                 Service FB
               </Link>
             </li>
+            <li className="max-lg:border-b max-lg:py-2 px-3 max-lg:rounded">
+              <Link
+                to="chuyenxu"
+                className="lg:hover:text-[#007bff] text-[#333] block font-semibold text-[15px]"
+              >
+               Tools chuyển xu tds
+              </Link>
+            </li>
           </ul>
         </div>
       </header>

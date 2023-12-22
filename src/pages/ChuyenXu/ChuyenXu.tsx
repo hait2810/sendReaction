@@ -1,3 +1,5 @@
+// import axios from "axios";
+import { Button, Modal, Tabs, TabsProps } from "antd";
 import axios from "axios";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -5,20 +7,94 @@ interface Inputs {
   account: string;
   coin: number;
   transferAll: boolean;
+  user?: string;
+  pass?: string;
   accN: string;
 }
+const formatter = new Intl.NumberFormat("vi-VN", {
+  style: "currency",
+  currency: "VND",
+});
 const ChuyenXu = () => {
   const [loading, setLoading] = useState(false);
-  const [coin, setCoin] = useState("");
+  const [xuSuccess, setXuSeccess] = useState(0);
+  const [success, setSuccess] = useState<string[]>([]);
+  const [error, setError] = useState<string[]>([]);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   const { register, handleSubmit } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
-    const account = data.account.replace(/ /g, "").split("\n");
-    console.log(account);
+    setLoading(true);
+    const tdsacc = data.account.replace(/ /g, "").split("\n");
+    const axiosRequests = tdsacc.map(async (element) => {
+      const account = element.split("|");
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { account: hi, ...rest } = data;
+      rest.user = account[0];
+      rest.pass = account[1];
+
+      try {
+        const { data: response } = await axios.post(
+          "https://page.vidieu.net/api/changecoins",
+          rest
+        );
+
+        if (response.code === 200) {
+          setXuSeccess((old) => old + parseInt(response.coin));
+          return `Tài khoản ${rest.user} chuyển thành công ${rest.coin} xu`;
+        } else {
+          return `Tài khoản ${rest.user} chuyển thất bại`;
+        }
+      } catch (error) {
+        return `Tài khoản ${rest.user} chuyển thất bại`;
+      }
+    });
+
+    try {
+      const results = await Promise.all(axiosRequests);
+      const successResults = results.filter((result) =>
+        result.includes("thành công")
+      );
+      const errorResults = results.filter((result) =>
+        result.includes("thất bại")
+      );
+
+      setSuccess([...success, ...successResults]);
+      setError([...error, ...errorResults]);
+    } catch (error) {
+      console.error("Lỗi khi thực hiện các lời gọi axios");
+    }
+    setLoading(false);
   };
+  const items: TabsProps["items"] = [
+    {
+      key: "1",
+      label: "Chuyển thành công",
+      children: success.map((item, index) => <p key={index}>{item}</p>),
+    },
+    {
+      key: "2",
+      label: "Chuyển không thành công",
+      children: error.map((item, index) => <p key={index}>{item}</p>),
+    },
+  ];
   return (
-    <div>
+    <div className="px-2">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+        <div className="w-full mb-4">
           <div>
             <label
               htmlFor="last_name"
@@ -28,8 +104,9 @@ const ChuyenXu = () => {
             </label>
             <textarea
               {...register("account")}
-              rows={4}
-              className="border rounded-lg border-gray-300 w-full px-0 text-sm text-gray-900 bg-white dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
+              rows={8}
+              placeholder="Nhập list acc"
+              className="border rounded-lg border-gray-300 w-full px-2 text-sm outline-none text-gray-900 bg-white dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
             ></textarea>
           </div>
           <div>
@@ -42,7 +119,7 @@ const ChuyenXu = () => {
             <input
               type="number"
               {...register("coin")}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-gray-50 border outline-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               defaultValue={1000000}
             />
           </div>
@@ -56,7 +133,7 @@ const ChuyenXu = () => {
             <input
               type="text"
               {...register("accN")}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-gray-50 border border-gray-300 outline-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Tài khoản nhận xu"
             />
           </div>
@@ -76,12 +153,8 @@ const ChuyenXu = () => {
             </label>
           </div>
 
-          <div className="flex items-center justify-between  py-2 border-t dark:border-gray-600">
-            <button
-              disabled={loading}
-              type="submit"
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded text-sm px-5 py-2.5 text-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center"
-            >
+          <div className="flex items-center gap-4 py-2 border-t dark:border-gray-600">
+            <Button disabled={loading} type="primary" htmlType="submit">
               {loading && (
                 <svg
                   aria-hidden="true"
@@ -102,11 +175,28 @@ const ChuyenXu = () => {
                 </svg>
               )}
               Xác nhận
-            </button>
+            </Button>
+            <Button
+              className="!bg-neutral-500"
+              type="primary"
+              onClick={showModal}
+            >
+              Bấm vào đây để xem thông tin!!!
+            </Button>
           </div>
         </div>
       </form>
-      <p className="text-red-400">Tổng xu: {coin}</p>
+      <div className="modal">
+        <Modal
+          title="Thông tin"
+          open={isModalOpen}
+          onOk={handleOk}
+          onCancel={handleCancel}
+        >
+          <Tabs defaultActiveKey="1" items={items} />
+        </Modal>
+      </div>
+      <div>Xu chuyển thành công: {formatter.format(xuSuccess)}</div>
       <p className="ms-auto text-xs text-gray-500 dark:text-gray-400">
         <a
           href="https://web.facebook.com/abcdefu.abc"
