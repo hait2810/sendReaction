@@ -35,7 +35,11 @@ const ChuyenXu = () => {
     setIsModalOpen(false);
   };
 
-  const { register, handleSubmit } = useForm<Inputs>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
     setLoading(true);
     const tdsacc = data.account.replace(/ /g, "").split("\n");
@@ -103,11 +107,18 @@ const ChuyenXu = () => {
               Danh sách acc Tds ( định dạng user|pass, mỗi acc 1 dòng )
             </label>
             <textarea
-              {...register("account")}
+              {...register("account", {
+                required: "Trường này không được để trống",
+              })}
               rows={8}
               placeholder="Nhập list acc"
               className="border rounded-lg border-gray-300 w-full px-2 text-sm outline-none text-gray-900 bg-white dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
             ></textarea>
+            {errors.account && (
+              <span className="text-sm text-red-500">
+                Trường này không được để trống !!!
+              </span>
+            )}
           </div>
           <div>
             <label
