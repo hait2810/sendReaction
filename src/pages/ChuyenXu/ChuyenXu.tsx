@@ -58,7 +58,7 @@ const ChuyenXu = () => {
 
         if (response.code === 200) {
           setXuSeccess((old) => old + parseInt(response.coin));
-          return `Tài khoản ${rest.user} chuyển thành công ${response.coin} xu`;
+          return `Tài khoản ${rest.user} chuyển thành công ${formatter.format(response.coin)} xu`;
         } else {
           return `Tài khoản ${rest.user} chuyển thất bại`;
         }
