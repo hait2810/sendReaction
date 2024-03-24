@@ -1,4 +1,3 @@
-// import axios from "axios";
 import { Button } from "antd";
 import axios from "axios";
 import { useState } from "react";
@@ -22,7 +21,8 @@ const GetToken = () => {
     cookie.map(async (element) => {
       try {
         const { data: response } = await axios.get(
-          `https://api.vidieu.net/api/gettoken.php?app=${data.app}&cookie=${element}`,  {
+          `https://api.vidieu.net/api/gettoken.php`,  {
+            params: {app: data.app, cookie: element},
             headers: {
               'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7', 
               'Content-Type': 'application/json',
