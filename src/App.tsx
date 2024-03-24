@@ -7,8 +7,7 @@ const SeedingReaction = lazy(() => import("./pages/SeedingReaction"));
 const CheckXu = lazy(() => import("./pages/CheckXu"));
 const ChuyenXu = lazy(() => import("./pages/ChuyenXu"));
 const GetToken = lazy(() => import("./pages/GetToken"));
-
-
+const AddToken = lazy(() => import("./pages/AddToken"));
 
 
 function App() {
@@ -16,11 +15,12 @@ function App() {
     <>
       <Suspense fallback={<Loader />}>
         <Routes>
-            {/* <Route path="*" element={<SeedingReaction />} /> */}
+          {/* <Route path="*" element={<SeedingReaction />} /> */}
           <Route path="/" element={<Header />}>
             <Route index element={<SeedingReaction />} />
             <Route path="checkxu" element={<CheckXu />} />
             <Route path="chuyenxu" element={< ChuyenXu/>} />
+            <Route path="addtoken" element={< AddToken/>} />
             <Route path="gettoken" element={< GetToken/>} />
           </Route>
         </Routes>
