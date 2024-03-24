@@ -1,1 +1,1 @@
-export { default } from "./Gettoken";
+export { default } from "./GetToken";
