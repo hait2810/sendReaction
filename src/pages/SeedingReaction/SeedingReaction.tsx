@@ -13,6 +13,7 @@ interface Inputs {
   link: string;
   reaction: string;
   listToken: string;
+  timeDelay: number;
 }
 function getRandomReaction() {
   const reactionValues = Object.values(reactionType);
@@ -44,7 +45,7 @@ const SeedingReaction = () => {
           "https://page.vidieu.net/api/getid?link=" + link
         );
         setId(data.data);
-        reset({link: data.data})
+        reset({ link: data.data });
       } catch (error) {
         setId("");
       }
@@ -57,7 +58,7 @@ const SeedingReaction = () => {
   async function sendReactionsWithDelay(
     token: string[],
     id: string,
-    data: Inputs
+    data: Inputs,
   ) {
     for (const element of token) {
       const r = data.reaction == "RANDOM" ? getRandomReaction() : data.reaction;
@@ -76,7 +77,7 @@ const SeedingReaction = () => {
       }
 
       // Introduce a 2-second delay before the next iteration
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, data.timeDelay * 1000));
     }
   }
 
@@ -91,10 +92,13 @@ const SeedingReaction = () => {
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+        <div className="w-full mb-4 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
           <div className=" bg-white rounded-t-lg dark:bg-gray-800">
-            <label htmlFor="comment" className="sr-only">
-              Your comment
+            <label
+              htmlFor="countries"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Nhập list token
             </label>
             <textarea
               {...register("listToken")}
@@ -134,6 +138,20 @@ const SeedingReaction = () => {
                 placeholder="Nhập link or id"
                 defaultValue={id}
                 onBlur={(e) => onGetID(e.target.value)}
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="last_name"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Nhập thời gian delay giữa mỗi lần gửi cảm xúc
+              </label>
+              <input
+                type="number"
+                {...register("timeDelay")}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Nhập số giây"
               />
             </div>
           </div>
