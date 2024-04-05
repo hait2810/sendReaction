@@ -44,7 +44,7 @@ const ChangePass = () => {
         const { data: response } = await axios.get(
           `https://page.vidieu.net/api/changepass?user=${user}&oldpass=${pass}&newpass=${data.newpass}`,
         );
-
+        await new Promise((resolve) => setTimeout(resolve, 2 * 1000));
         if (response.code === 200) {
           return `Tài khoản ${user} đổi mk thành công`;
         } else {
