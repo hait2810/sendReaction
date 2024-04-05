@@ -3,7 +3,7 @@ import axios from "axios";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 interface Inputs {
-  newpass:string;
+  newpass: string;
   account: string;
 }
 
@@ -33,40 +33,35 @@ const ChangePass = () => {
   const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
     setLoading(true);
     const tdsacc = data.account.replace(/ /g, "").split("\n");
-    const axiosRequests = tdsacc.map(async (element) => {
-      const account = element.split("|");
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      
-      const user = account[0].replace(/\s/g, '');
-      const pass = account[1].replace(/\s/g, '');
+    for (let index = 0; index < tdsacc.length - 1; index++) {
+      const user = tdsacc[index].split("|")[0].replace(/\s/g, "");
+      const pass = tdsacc[index].split("|")[1].replace(/\s/g, "");
 
       try {
         const { data: response } = await axios.get(
-          `https://page.vidieu.net/api/changepass?user=${user}&oldpass=${pass}&newpass=${data.newpass.replace(/\s/g, '')}`,
+          `https://page.vidieu.net/api/changepass?user=${user}&oldpass=${pass}&newpass=${data.newpass.replace(
+            /\s/g,
+            ""
+          )}`
         );
         await new Promise((resolve) => setTimeout(resolve, 2 * 1000));
         if (response.code === 200) {
-          return `Tài khoản ${user} đổi mk thành công`;
+          setSuccess((prevSuccess) => [
+            ...prevSuccess,
+            `Tài khoản ${user} đổi mk thành công`,
+          ]);
         } else {
-          return `Tài khoản ${user} đổi mật khẩu thất bại`;
+          setError((prevSuccess) => [
+            ...prevSuccess,
+            `Tài khoản ${user} đổi mật khẩu thất bại`,
+          ]);
         }
-      } catch (error) {
-        return `Tài khoản ${user} đổi mật khẩu thất bại`;      }
-    });
-
-    try {
-      const results = await Promise.all(axiosRequests);
-      const successResults = results.filter((result) =>
-        result.includes("thành công")
-      );
-      const errorResults = results.filter((result) =>
-        result.includes("thất bại")
-      );
-
-      setSuccess([...success, ...successResults]);
-      setError([...error, ...errorResults]);
-    } catch (error) {
-      console.error("Lỗi khi thực hiện các lời gọi axios");
+      } catch (abc) {
+        setError((prevSuccess) => [
+          ...prevSuccess,
+          `Tài khoản ${user} đổi mật khẩu thất bại`,
+        ]);
+      }
     }
     setLoading(false);
   };
