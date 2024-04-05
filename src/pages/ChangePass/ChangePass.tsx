@@ -33,7 +33,7 @@ const ChangePass = () => {
   const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
     setLoading(true);
     const tdsacc = data.account.replace(/ /g, "").split("\n");
-    for (let index = 0; index < tdsacc.length - 1; index++) {
+    for (let index = 0; index < tdsacc.length; index++) {
       const user = tdsacc[index].split("|")[0].replace(/\s/g, "");
       const pass = tdsacc[index].split("|")[1].replace(/\s/g, "");
 
