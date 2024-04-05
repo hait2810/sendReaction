@@ -8,6 +8,8 @@ const CheckXu = lazy(() => import("./pages/CheckXu"));
 const ChuyenXu = lazy(() => import("./pages/ChuyenXu"));
 const GetToken = lazy(() => import("./pages/GetToken"));
 const AddToken = lazy(() => import("./pages/AddToken"));
+const ChangePass = lazy(() => import("./pages/ChangePass"));
+
 
 
 function App() {
@@ -21,6 +23,7 @@ function App() {
             <Route path="checkxu" element={<CheckXu />} />
             <Route path="chuyenxu" element={< ChuyenXu/>} />
             <Route path="addtoken" element={< AddToken/>} />
+            <Route path="changepass" element={< ChangePass/>} />
             <Route path="gettoken" element={< GetToken/>} />
           </Route>
         </Routes>
