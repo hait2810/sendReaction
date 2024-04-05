@@ -37,12 +37,12 @@ const ChangePass = () => {
       const account = element.split("|");
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       
-      const user = account[0];
-      const pass = account[1];
+      const user = account[0].replace(/\s/g, '');
+      const pass = account[1].replace(/\s/g, '');
 
       try {
         const { data: response } = await axios.get(
-          `https://page.vidieu.net/api/changepass?user=${user}&oldpass=${pass}&newpass=${data.newpass}`,
+          `https://page.vidieu.net/api/changepass?user=${user}&oldpass=${pass}&newpass=${data.newpass.replace(/\s/g, '')}`,
         );
         await new Promise((resolve) => setTimeout(resolve, 2 * 1000));
         if (response.code === 200) {
