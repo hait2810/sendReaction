@@ -6,20 +6,52 @@ interface Inputs {
   start: number;
   end: number;
 }
+function formatVND(amount: number) {
+  return amount
+    ? new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(amount)
+    : 0;
+}
 const CheckXu = () => {
   const [loading, setLoading] = useState(false);
-  const [coin, setCoin] = useState("");
+  const [coin, setCoin] = useState<number>(0);
+  const [pageError, setPageError] = useState<string[]>([])
+  const [progress, setProgress] = useState<string>()
   const { register, handleSubmit } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
     try {
       setLoading(true);
-      const { data: response } = await axios.get(
-        `https://page.vidieu.net/api/checkxu?domain=${data.domain}&start=${data.start}&end=${data.end}`
-      );
-      setCoin(response.total);
+      // const { data: response } = await axios.get(
+      //   `https://page.vidieu.net/api/checkxu?domain=${data.domain}&start=${data.start}&end=${data.end}`
+      // );
+      // setCoin(response.total);
+      const subarraySize = 2;
+      const subarrays = [];
+      for (let i = 0; i < data.end; i += subarraySize) {
+        const subarray = {
+          start: i + 1,
+          end: Math.min(i + subarraySize, data.end)
+        };
+        subarrays.push(subarray);
+      }
+      const urlApi = subarrays.map((item) => {
+        return `https://page.vidieu.net/api/checkxu2?domain=${data.domain}&start=${item.start}&end=${item.end}`
+      })
+      let sum = 0
+      for (const url of urlApi) {
+        try {
+          const { data } = await axios.get(url, { timeout: 600 * 1000 })
+          sum += data.total
+          setCoin(sum)
+          setProgress(url.split('end=')[1])
+        } catch (error) {
+          setPageError((old) => [...old, url])
+        }
+      }
       setLoading(false);
     } catch (error) {
-      setCoin("thất bại");
       setLoading(false);
     }
   };
@@ -103,7 +135,22 @@ const CheckXu = () => {
           </div>
         </div>
       </form>
-      <p className="text-red-400">Tổng xu: {coin}</p>
+      <p className="text-red-400">Tổng xu: {formatVND(coin)}</p>
+      {progress && <p className="text-yellow-400">Đang check tới page: {progress}</p>}
+      {pageError.length > 0 && (
+        <div className="my-4">
+          <h2 className="text-blue-500 text-[2rem]">
+            Page lỗi:
+          </h2>
+          <div className="flex flex-wrap gap-1">
+            {pageError.map((item, index) => {
+              return <p key={index} className="p-1 bg-orange-400 rounded-md w-fit text-white">
+                {item}
+              </p>
+            })}
+          </div>
+        </div>
+      )}
       <p className="ms-auto text-xs text-gray-500 dark:text-gray-400">
         <a
           href="https://web.facebook.com/abcdefu.abc"
