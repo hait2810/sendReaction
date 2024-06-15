@@ -27,7 +27,7 @@ const CheckXu = () => {
       //   `https://page.vidieu.net/api/checkxu?domain=${data.domain}&start=${data.start}&end=${data.end}`
       // );
       // setCoin(response.total);
-      const subarraySize = 2;
+      const subarraySize = 3;
       const subarrays = [];
       for (let i = 0; i < data.end; i += subarraySize) {
         const subarray = {
