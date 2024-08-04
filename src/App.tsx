@@ -11,6 +11,8 @@ const AddToken = lazy(() => import("./pages/AddToken"));
 const ChangePass = lazy(() => import("./pages/ChangePass"));
 const GetCookieProfile = lazy(() => import("./pages/GetCookieProfile"));
 const BuffLive = lazy(() => import("./pages/BuffLive"));
+const GetDTSG = lazy(() => import("./pages/GetDTSG"));
+
 function App() {
   return (
     <>
@@ -20,6 +22,7 @@ function App() {
           <Route path="/" element={<Header />}>
             <Route index element={<SeedingReaction />} />
             <Route path="checkxu" element={<CheckXu />} />
+            <Route path="getdtsg" element={<GetDTSG />} />
             <Route path="bufflive" element={<BuffLive />} />
             <Route path="getcookie" element={< GetCookieProfile />} />
             <Route path="chuyenxu" element={< ChuyenXu />} />

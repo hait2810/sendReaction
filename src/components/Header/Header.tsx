@@ -42,6 +42,14 @@ const Header = () => {
             </li>
             <li className="max-lg:border-b max-lg:py-2 px-3 max-lg:rounded">
               <Link
+                to="getdtsg"
+                className="lg:hover:text-[#007bff] text-[#333] block font-semibold text-[15px]"
+              >
+               Get dtsg
+              </Link>
+            </li>
+            <li className="max-lg:border-b max-lg:py-2 px-3 max-lg:rounded">
+              <Link
                 to="bufflive"
                 className="lg:hover:text-[#007bff] text-[#333] block font-semibold text-[15px]"
               >
