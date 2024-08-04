@@ -12,7 +12,7 @@ const GetCookieProfile = () => {
   const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
     try {
       setLoading(true);
-      const { data: listcookie } = await axios.post('http://107.173.255.214:9999/api/getcookie', data, { timeout: 120 * 1000 })
+      const { data: listcookie } = await axios.post('https://live.vidieu.net/api/getcookie', data, { timeout: 120 * 1000 })
       setValue('listCookiePro5', listcookie?.cookieText || '')
       setLoading(false);
     } catch (error) {

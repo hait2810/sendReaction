@@ -15,7 +15,7 @@ const BuffLive = () => {
   const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
     try {
       setLoading(true);
-      await axios.post('http://107.173.255.214:9999/api/create', data, { timeout: 5000 })
+      await axios.post('https://live.vidieu.net/api/create', data, { timeout: 5000 })
       setLoading(false);
     } catch (error) {
       setLoading(false);
