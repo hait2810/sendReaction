@@ -4,7 +4,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 interface Inputs {
   cookie: string;
   listCookiePro5?: string
-  link?: string
 }
 
 const GetCookieProfile = () => {
@@ -24,21 +23,6 @@ const GetCookieProfile = () => {
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
-        <div>
-            <label
-              htmlFor="last_name"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Nhập link live
-            </label>
-            <input
-              type="text"
-              {...register("link")}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Nhập link"
-
-            />
-          </div>
           <div>
             <label
               htmlFor="last_name"
