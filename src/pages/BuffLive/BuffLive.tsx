@@ -49,12 +49,12 @@ const BuffLive = () => {
             </label>
             <input
               type="number"
-              {...register("minutes", { required: true, min: 1, max: 300 })}
+              {...register("minutes", { required: true, min: 1, max: 999,  })}
               defaultValue={5}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Nhập số phút live"
             />
-            {errors.minutes && <span className="text-red-400 text-sm ml-2">Không được để trống !!!</span>}
+            {errors.minutes && <span className="text-red-400 text-sm ml-2">Max  999 phút</span>}
           </div>
           <div>
             <label
