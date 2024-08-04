@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 interface Inputs {
-  cookies: string;
+  cookie: string;
   link?: string
   listCookiePro5?: string
 }
@@ -14,7 +14,7 @@ const GetDTSG = () => {
     try {
       setLoading(true);
       const { data: listcookie } = await axios.post('https://live.vidieu.net/api/getfb_dtsg', data, { timeout: 1000 * 1000 })
-      setValue('listCookiePro5', listcookie?.cookies || '')
+      setValue('listCookiePro5', listcookie?.fb_dtsg || '')
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -44,11 +44,11 @@ const GetDTSG = () => {
               htmlFor="last_name"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              List cookies
+              List cookie
             </label>
             <textarea
               className="bg-gray-50  p-2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 overflow-y-auto"
-              {...register("cookies")}>
+              {...register("cookie")}>
             </textarea>
           </div>
           <div>
