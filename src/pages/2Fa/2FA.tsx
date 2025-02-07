@@ -22,9 +22,9 @@ const ClickCopy = ({ ma }: { ma: string }) => {
     try {
       // Sử dụng API clipboard để sao chép văn bản
       await navigator.clipboard.writeText(data?.data?.token);
-      toast.success("Text copied to clipboard!");
+      toast.success(`Copy thành công mã: ${data?.data?.token}`);
     } catch (err) {
-      toast.error("Failed to copy text.");
+      toast.error("Lỗi");
     }
   };
 
