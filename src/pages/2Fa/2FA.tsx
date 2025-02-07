@@ -17,6 +17,7 @@ const ClickCopy = ({ ma }: { ma: string }) => {
       ),
     refetchInterval: 3000,
   });
+
   const handleCopyClick = async () => {
     try {
       // Sử dụng API clipboard để sao chép văn bản
@@ -29,7 +30,7 @@ const ClickCopy = ({ ma }: { ma: string }) => {
 
   return (
     <button
-      className="bg-blue-500 rounded-md p-1 text-white "
+      className="bg-blue-500 rounded-md p-1 text-white flex gap-1 "
       onClick={handleCopyClick}
     >
       {data?.data?.token}
@@ -60,7 +61,12 @@ const TwoFa = () => {
     const list2fa2 = list2fa
       ? [...JSON.parse(list2fa), ...(tokensNotExist || [])]
       : tokensNotExist;
-    await localStorage.setItem("list2fa", JSON.stringify(list2fa2.map((item) => item?.replace(/[^0-9a-zA-Z|]/g, ""))));
+    await localStorage.setItem(
+      "list2fa",
+      JSON.stringify(
+        list2fa2.map((item) => item?.replace(/[^0-9a-zA-Z|]/g, ""))
+      )
+    );
     setLoading(false);
   };
 
@@ -132,7 +138,9 @@ const TwoFa = () => {
             JSON.parse(list2fa)?.map((item: string, index: number) => {
               return (
                 <li key={index} className="flex items-center gap-1">
-                  <p>{item}</p>
+                  <p className="p-1 bg-slate-500 rounded-md text-white">
+                    {item}
+                  </p>
                   <p>==&gt; </p>
                   <p>
                     <ClickCopy ma={item} />
