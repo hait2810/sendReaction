@@ -66,10 +66,13 @@ const TwoFa = () => {
 
   const onDelete = async (ma: string) => {
     setLoading(true);
-    const lists = JSON.parse(list2fa || "").filter(
-      (item: string) => item !== ma
-    );
-    await localStorage.setItem("list2fa", JSON.stringify(lists));
+    const confirm = window.confirm("Bạn có chắc chắn muốn xoá không?");
+    if (confirm) {
+      const lists = JSON.parse(list2fa || "").filter(
+        (item: string) => item !== ma
+      );
+      await localStorage.setItem("list2fa", JSON.stringify(lists));
+    }
     setLoading(false);
   };
 
