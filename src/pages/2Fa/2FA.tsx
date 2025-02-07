@@ -60,7 +60,7 @@ const TwoFa = () => {
     const list2fa2 = list2fa
       ? [...JSON.parse(list2fa), ...(tokensNotExist || [])]
       : tokensNotExist;
-    await localStorage.setItem("list2fa", JSON.stringify(list2fa2));
+    await localStorage.setItem("list2fa", JSON.stringify(list2fa2.map((item) => item?.replace(/[^0-9a-zA-Z|]/g, ""))));
     setLoading(false);
   };
 
