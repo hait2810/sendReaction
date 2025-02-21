@@ -10,8 +10,7 @@ const socket: Socket<ServerToClientEvents, object> = io(
 );
 const Monitor = () => {
   socket.on("hit", (bank: string) => {
-   console.log(bank);
-   
+   console.log(bank, "hihi");
   });
   return (
     <div>
