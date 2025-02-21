@@ -14,6 +14,7 @@ const ChangePass = lazy(() => import("./pages/ChangePass"));
 const GetCookieProfile = lazy(() => import("./pages/GetCookieProfile"));
 const BuffLive = lazy(() => import("./pages/BuffLive"));
 const GetDTSG = lazy(() => import("./pages/GetDTSG"));
+const Monitor = lazy(() => import("./pages/Monitor"));
 
 function App() {
   const queryClient = new QueryClient();
@@ -29,6 +30,7 @@ function App() {
             <Route path="bufflive" element={<BuffLive />} />
             <Route path="2fa" element={<TwoFa />} />
             <Route path="getcookie" element={<GetCookieProfile />} />
+            <Route path="monitor" element={<Monitor />} />
             <Route path="chuyenxu" element={<ChuyenXu />} />
             <Route path="addtoken" element={<AddToken />} />
             <Route path="changepass" element={<ChangePass />} />
