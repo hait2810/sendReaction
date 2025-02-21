@@ -6,11 +6,12 @@ interface ServerToClientEvents {
 
 
 const socket: Socket<ServerToClientEvents, object> = io(
-  "http://103.82.27.19:9986/"
+  "https://103.82.27.19:9986/"
 );
 const Monitor = () => {
   socket.on("hit", (bank: string) => {
-   bank
+   console.log(bank);
+   
   });
   return (
     <div>
