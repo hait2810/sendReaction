@@ -50,7 +50,7 @@ const Monitor = () => {
         <h2 className="text-red-500 font-bold">Monitor HIT</h2>
         {hit?.map((item, index) => {
           return (
-            <p key={index} className="text-blue-300">
+            <p key={index} className="text-blue-300 border-b-2 border-white">
               {item}
             </p>
           );
@@ -60,7 +60,7 @@ const Monitor = () => {
         <h2 className="text-red-500 font-bold">Monitor RIK</h2>
         {rik?.map((item, index) => {
           return (
-            <p key={index} className="text-blue-300">
+            <p key={index} className="text-orange-300 border-b-2 border-white">
               {item}
             </p>
           );
@@ -70,7 +70,7 @@ const Monitor = () => {
         <h2 className="text-red-500 font-bold">Monitor B52</h2>
         {b52?.map((item, index) => {
           return (
-            <p key={index} className="text-blue-300">
+            <p key={index} className="text-amber-800 border-b-2 border-white">
               {item}
             </p>
           );
@@ -80,7 +80,7 @@ const Monitor = () => {
         <h2 className="text-red-500 font-bold">Monitor SUN</h2>
         {sun?.map((item, index) => {
           return (
-            <p key={index} className="text-blue-300">
+            <p key={index} className="text-black border-b-2 border-white">
               {item}
             </p>
           );
