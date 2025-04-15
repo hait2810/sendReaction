@@ -8,6 +8,12 @@ interface ServerToClientEvents {
   rik: (bank: string) => void;
 }
 
+interface MonitorData {
+  data: string[];
+  color: string;
+  title: string;
+}
+
 const socket: Socket<ServerToClientEvents, object> = io(
   "https://linhtinh.vidieu.net/"
 );
@@ -63,6 +69,47 @@ const Monitor = () => {
 
   const getTotalCount = () => hit.length + b52.length + sun.length + rik.length;
 
+  const getFilteredData = (): MonitorData[] => {
+    const allData: MonitorData[] = [
+      { data: hit, color: "red", title: "HIT" },
+      { data: rik, color: "orange", title: "RIK" },
+      { data: b52, color: "amber", title: "B52" },
+      { data: sun, color: "yellow", title: "SUN" }
+    ];
+
+    if (activeTab === "all") {
+      return allData;
+    }
+
+    return allData.filter(item => item.title.toLowerCase() === activeTab);
+  };
+
+  const renderMonitorCard = ({ data, color, title }: MonitorData) => {
+    return (
+      <div className="backdrop-blur-lg bg-white/10 rounded-xl shadow-2xl p-4 transform hover:scale-105 transition-all duration-300 border border-white/20">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-bold text-white flex items-center">
+            <span className={`w-3 h-3 bg-${color}-500 rounded-full mr-2 animate-pulse`}></span>
+            Monitor {title}
+          </h2>
+          <span className="text-sm text-gray-400">{data.length}</span>
+        </div>
+        <div className="space-y-2 max-h-[500px] overflow-y-auto custom-scrollbar">
+          {data?.map((item, index) => (
+            <div
+              key={index}
+              className={`group bg-gradient-to-r from-${color}-900/50 to-${color}-800/50 p-3 rounded-lg border border-${color}-500/20 hover:border-${color}-500/50 transition-all duration-300`}
+            >
+              <p className="text-gray-200 group-hover:text-white transition-colors duration-300">
+                {item}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 p-6">
       <div className="max-w-7xl mx-auto">
@@ -90,93 +137,7 @@ const Monitor = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="backdrop-blur-lg bg-white/10 rounded-xl shadow-2xl p-4 transform hover:scale-105 transition-all duration-300 border border-white/20">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-white flex items-center">
-                <span className="w-3 h-3 bg-red-500 rounded-full mr-2 animate-pulse"></span>
-                Monitor HIT
-              </h2>
-              <span className="text-sm text-gray-400">{hit.length}</span>
-            </div>
-            <div className="space-y-2 max-h-[500px] overflow-y-auto custom-scrollbar">
-              {hit?.map((item, index) => (
-                <div
-                  key={index}
-                  className="group bg-gradient-to-r from-red-900/50 to-red-800/50 p-3 rounded-lg border border-red-500/20 hover:border-red-500/50 transition-all duration-300"
-                >
-                  <p className="text-gray-200 group-hover:text-white transition-colors duration-300">
-                    {item}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="backdrop-blur-lg bg-white/10 rounded-xl shadow-2xl p-4 transform hover:scale-105 transition-all duration-300 border border-white/20">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-white flex items-center">
-                <span className="w-3 h-3 bg-orange-500 rounded-full mr-2 animate-pulse"></span>
-                Monitor RIK
-              </h2>
-              <span className="text-sm text-gray-400">{rik.length}</span>
-            </div>
-            <div className="space-y-2 max-h-[500px] overflow-y-auto custom-scrollbar">
-              {rik?.map((item, index) => (
-                <div
-                  key={index}
-                  className="group bg-gradient-to-r from-orange-900/50 to-orange-800/50 p-3 rounded-lg border border-orange-500/20 hover:border-orange-500/50 transition-all duration-300"
-                >
-                  <p className="text-gray-200 group-hover:text-white transition-colors duration-300">
-                    {item}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="backdrop-blur-lg bg-white/10 rounded-xl shadow-2xl p-4 transform hover:scale-105 transition-all duration-300 border border-white/20">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-white flex items-center">
-                <span className="w-3 h-3 bg-amber-500 rounded-full mr-2 animate-pulse"></span>
-                Monitor B52
-              </h2>
-              <span className="text-sm text-gray-400">{b52.length}</span>
-            </div>
-            <div className="space-y-2 max-h-[500px] overflow-y-auto custom-scrollbar">
-              {b52?.map((item, index) => (
-                <div
-                  key={index}
-                  className="group bg-gradient-to-r from-amber-900/50 to-amber-800/50 p-3 rounded-lg border border-amber-500/20 hover:border-amber-500/50 transition-all duration-300"
-                >
-                  <p className="text-gray-200 group-hover:text-white transition-colors duration-300">
-                    {item}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="backdrop-blur-lg bg-white/10 rounded-xl shadow-2xl p-4 transform hover:scale-105 transition-all duration-300 border border-white/20">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-white flex items-center">
-                <span className="w-3 h-3 bg-yellow-500 rounded-full mr-2 animate-pulse"></span>
-                Monitor SUN
-              </h2>
-              <span className="text-sm text-gray-400">{sun.length}</span>
-            </div>
-            <div className="space-y-2 max-h-[500px] overflow-y-auto custom-scrollbar">
-              {sun?.map((item, index) => (
-                <div
-                  key={index}
-                  className="group bg-gradient-to-r from-yellow-900/50 to-yellow-800/50 p-3 rounded-lg border border-yellow-500/20 hover:border-yellow-500/50 transition-all duration-300"
-                >
-                  <p className="text-gray-200 group-hover:text-white transition-colors duration-300">
-                    {item}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
+          {getFilteredData().map((item) => renderMonitorCard(item))}
         </div>
       </div>
     </div>
