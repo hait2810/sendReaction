@@ -6,6 +6,7 @@ interface ServerToClientEvents {
   b52: (bank: string) => void;
   sun: (bank: string) => void;
   rik: (bank: string) => void;
+  five88: (bank: string) => void;
 }
 
 interface MonitorData {
@@ -23,6 +24,7 @@ const Monitor = () => {
   const [b52, setB52] = useState<string[]>([]);
   const [sun, setSun] = useState<string[]>([]);
   const [rik, setRik] = useState<string[]>([]);
+  const [five, setFive] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState<string>("all");
 
   useEffect(() => {
@@ -53,28 +55,37 @@ const Monitor = () => {
         return [bank, ...prev];
       });
     };
+    const handleFive = (bank: string) => {
+      setFive(prev => {
+        if (prev.length > 1000) return [bank];
+        return [bank, ...prev];
+      });
+    };
 
     socket.on("hit", handleHit);
     socket.on("rik", handleRik);
     socket.on("sun", handleSun);
     socket.on("b52", handleB52);
+    socket.on("five88", handleFive);
 
     return () => {
       socket.off("hit", handleHit);
       socket.off("rik", handleRik);
       socket.off("sun", handleSun);
       socket.off("b52", handleB52);
+      socket.off("five88", handleFive);
     };
   }, []);
 
-  const getTotalCount = () => hit.length + b52.length + sun.length + rik.length;
+  const getTotalCount = () => hit.length + b52.length + sun.length + rik.length + five.length;
 
   const getFilteredData = (): MonitorData[] => {
     const allData: MonitorData[] = [
       { data: hit, color: "red", title: "HIT" },
       { data: rik, color: "orange", title: "RIK" },
       { data: b52, color: "amber", title: "B52" },
-      { data: sun, color: "yellow", title: "SUN" }
+      { data: sun, color: "yellow", title: "SUN" },
+      { data: five, color: "blue", title: "FIVE" }
     ];
 
     if (activeTab === "all") {
@@ -121,7 +132,7 @@ const Monitor = () => {
         </div>
 
         <div className="flex justify-center space-x-4 mb-8">
-          {["all", "hit", "rik", "b52", "sun"].map((tab) => (
+          {["all", "hit", "rik", "b52", "sun",'five'].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -136,7 +147,7 @@ const Monitor = () => {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
           {getFilteredData().map((item) => renderMonitorCard(item))}
         </div>
       </div>
