@@ -15,6 +15,7 @@ const GetCookieProfile = lazy(() => import("./pages/GetCookieProfile"));
 const BuffLive = lazy(() => import("./pages/BuffLive"));
 const GetDTSG = lazy(() => import("./pages/GetDTSG"));
 const Monitor = lazy(() => import("./pages/Monitor"));
+const MonitorTach = lazy(() => import("./pages/MonitorTach"));
 
 function App() {
   const queryClient = new QueryClient();
@@ -31,6 +32,7 @@ function App() {
             <Route path="2fa" element={<TwoFa />} />
             <Route path="getcookie" element={<GetCookieProfile />} />
             <Route path="monitor" element={<Monitor />} />
+            <Route path="monitortach" element={<MonitorTach />} />
             <Route path="chuyenxu" element={<ChuyenXu />} />
             <Route path="addtoken" element={<AddToken />} />
             <Route path="changepass" element={<ChangePass />} />
