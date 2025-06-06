@@ -3,10 +3,7 @@ import { io, Socket } from "socket.io-client";
 
 interface ServerToClientEvents {
   hittach: (bank: string) => void;
-  b52: (bank: string) => void;
-  sun: (bank: string) => void;
-  rik: (bank: string) => void;
-  five88: (bank: string) => void;
+  suntach: (bank: string) => void;
 }
 
 interface MonitorData {
@@ -21,6 +18,7 @@ const socket: Socket<ServerToClientEvents, object> = io(
 
 const MonitorTach = () => {
   const [hit, setHit] = useState<string[]>([]);
+  const [sun, setSun] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState<string>("all");
 
   useEffect(() => {
@@ -30,11 +28,19 @@ const MonitorTach = () => {
         return [bank, ...prev];
       });
     };
+     const handleSun = (bank: string) => {
+      setSun(prev => {
+        if (prev.length > 1000) return [bank];
+        return [bank, ...prev];
+      });
+    };
 
     socket.on("hittach", handleHit);
+    socket.on("suntach", handleSun);
 
     return () => {
       socket.off("hittach", handleHit);
+      socket.off("suntach", handleSun);
     };
   }, []);
 
