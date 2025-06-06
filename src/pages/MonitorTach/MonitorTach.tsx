@@ -44,11 +44,12 @@ const MonitorTach = () => {
     };
   }, []);
 
-  const getTotalCount = () => hit.length 
+  const getTotalCount = () => hit.length + sun.length
 
   const getFilteredData = (): MonitorData[] => {
     const allData: MonitorData[] = [
       { data: hit, color: "red", title: "HIT" },
+      { data: sun, color: "blue", title: "SUN" },
     ];
 
     if (activeTab === "all") {
