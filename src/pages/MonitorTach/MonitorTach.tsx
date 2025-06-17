@@ -4,6 +4,7 @@ import { io, Socket } from "socket.io-client";
 interface ServerToClientEvents {
   hittach: (bank: string) => void;
   suntach: (bank: string) => void;
+  b52tach: (bank: string) => void;
 }
 
 interface MonitorData {
@@ -19,17 +20,25 @@ const socket: Socket<ServerToClientEvents, object> = io(
 const MonitorTach = () => {
   const [hit, setHit] = useState<string[]>([]);
   const [sun, setSun] = useState<string[]>([]);
+  const [b52, setB52] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState<string>("all");
 
   useEffect(() => {
     const handleHit = (bank: string) => {
-      setHit(prev => {
+      setHit((prev) => {
         if (prev.length > 1000) return [bank];
         return [bank, ...prev];
       });
     };
-     const handleSun = (bank: string) => {
-      setSun(prev => {
+    const handleB52 = (bank: string) => {
+      setB52((prev) => {
+        if (prev.length > 1000) return [bank];
+        return [bank, ...prev];
+      });
+    };
+
+    const handleSun = (bank: string) => {
+      setSun((prev) => {
         if (prev.length > 1000) return [bank];
         return [bank, ...prev];
       });
@@ -37,26 +46,29 @@ const MonitorTach = () => {
 
     socket.on("hittach", handleHit);
     socket.on("suntach", handleSun);
+    socket.on("b52tach", handleB52);
 
     return () => {
       socket.off("hittach", handleHit);
       socket.off("suntach", handleSun);
+      socket.off("b52tach", handleB52);
     };
   }, []);
 
-  const getTotalCount = () => hit.length + sun.length
+  const getTotalCount = () => hit.length + sun.length + b52.length;
 
   const getFilteredData = (): MonitorData[] => {
     const allData: MonitorData[] = [
       { data: hit, color: "red", title: "HIT" },
       { data: sun, color: "blue", title: "SUN" },
+      { data: b52, color: "blue", title: "B52" },
     ];
 
     if (activeTab === "all") {
       return allData;
     }
 
-    return allData.filter(item => item.title.toLowerCase() === activeTab);
+    return allData.filter((item) => item.title.toLowerCase() === activeTab);
   };
 
   const renderMonitorCard = ({ data, color, title }: MonitorData) => {
@@ -64,7 +76,9 @@ const MonitorTach = () => {
       <div className="backdrop-blur-lg bg-white/10 rounded-xl shadow-2xl p-4 transform hover:scale-105 transition-all duration-300 border border-white/20">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-bold text-white flex items-center">
-            <span className={`w-3 h-3 bg-${color}-500 rounded-full mr-2 animate-pulse`}></span>
+            <span
+              className={`w-3 h-3 bg-${color}-500 rounded-full mr-2 animate-pulse`}
+            ></span>
             Monitor {title}
           </h2>
           <span className="text-sm text-gray-400">{data.length}</span>
@@ -96,7 +110,7 @@ const MonitorTach = () => {
         </div>
 
         <div className="flex justify-center space-x-4 mb-8">
-          {["all", "hit", "rik", "b52", "sun",'five'].map((tab) => (
+          {["all", "hit", "rik", "b52", "sun", "five"].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
