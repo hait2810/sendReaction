@@ -17,7 +17,7 @@ const ThemSun = () => {
     for (let index = 0; index < users.length; index++) {
       const username = users[index];
       axios
-        .get(`http://103.82.22.184:9986/api/add_user?username=${username}`)
+        .get(`https://nhat.vidieu.net/api/add_user?username=${username}`)
         .then(() => {
           toast.success(`user: ${username} được thêm thành công !!!`);
         })
