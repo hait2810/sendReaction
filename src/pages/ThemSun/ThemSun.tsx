@@ -1,5 +1,6 @@
 import axios from "axios";
-import { useState } from "react";
+import { User } from "lucide-react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -10,6 +11,7 @@ interface Inputs {
 const ThemSun = () => {
   const [loading, setLoading] = useState(false);
   const { register, handleSubmit } = useForm<Inputs>();
+  const [accs, setAccs] = useState<string[]>([]);
 
   const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
     setLoading(true);
@@ -28,6 +30,19 @@ const ThemSun = () => {
     }
     setLoading(false);
   };
+
+  useEffect(() => {
+    (() => {
+      axios
+        .get("https://nhat.vidieu.net/api/list_acc")
+        .then(({ data }) => {
+          const acclist = data.data.map((item: any) => item.username);
+          setAccs(acclist);
+        })
+        .catch(() => {});
+    })();
+  }, []);
+
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -78,6 +93,45 @@ const ThemSun = () => {
           </div>
         </div>
       </form>
+      <div className="max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+        <div className="bg-gray-50 px-6 py-4 border-b">
+          <h2 className="text-xl font-semibold text-gray-800">
+            Danh sách Account
+          </h2>
+          <p className="text-sm text-gray-600 mt-1">{accs.length} tài khoản</p>
+        </div>
+
+        <div className="divide-y divide-gray-100">
+          {accs.map((account, index) => (
+            <div
+              key={index}
+              className="px-6 py-4 hover:bg-gray-50 transition-colors duration-150 cursor-pointer group"
+            >
+              <div className="flex items-center space-x-3">
+                <div className="flex-shrink-0">
+                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center group-hover:bg-blue-200 transition-colors">
+                    <User className="w-5 h-5 text-blue-600" />
+                  </div>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900 truncate">
+                    {account}
+                  </p>
+                </div>
+                <div className="flex-shrink-0">
+                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="bg-gray-50 px-6 py-3 border-t">
+          <p className="text-xs text-gray-500 text-center">
+            Tổng cộng {accs.length} tài khoản
+          </p>
+        </div>
+      </div>
       <p className="ms-auto text-xs text-gray-500 dark:text-gray-400">
         <a
           href="https://web.facebook.com/abcdefu.abc"
