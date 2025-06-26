@@ -16,6 +16,7 @@ const BuffLive = lazy(() => import("./pages/BuffLive"));
 const GetDTSG = lazy(() => import("./pages/GetDTSG"));
 const Monitor = lazy(() => import("./pages/Monitor"));
 const MonitorTach = lazy(() => import("./pages/MonitorTach"));
+const ThemSun = lazy(() => import("./pages/ThemSun"));
 
 function App() {
   const queryClient = new QueryClient();
@@ -37,6 +38,7 @@ function App() {
             <Route path="addtoken" element={<AddToken />} />
             <Route path="changepass" element={<ChangePass />} />
             <Route path="gettoken" element={<GetToken />} />
+            <Route path="themsun" element={<ThemSun />} />
           </Route>
         </Routes>
       </Suspense>
