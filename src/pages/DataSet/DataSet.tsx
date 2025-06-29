@@ -133,6 +133,7 @@ const DataSet = () => {
                 </button>
               </div>
             </form>
+            <p className="text-sm text-red-300">Đang có {data?.data?.total || 0} dữ liệu được thêm</p>
           </div>
         </div>
       </div>
