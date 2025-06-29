@@ -17,6 +17,7 @@ const GetDTSG = lazy(() => import("./pages/GetDTSG"));
 const Monitor = lazy(() => import("./pages/Monitor"));
 const MonitorTach = lazy(() => import("./pages/MonitorTach"));
 const ThemSun = lazy(() => import("./pages/ThemSun"));
+const DataSet = lazy(() => import("./pages/DataSet"));
 
 function App() {
   const queryClient = new QueryClient();
@@ -39,6 +40,7 @@ function App() {
             <Route path="changepass" element={<ChangePass />} />
             <Route path="gettoken" element={<GetToken />} />
             <Route path="themsun" element={<ThemSun />} />
+            <Route path="data_set" element={<DataSet />} />
           </Route>
         </Routes>
       </Suspense>
