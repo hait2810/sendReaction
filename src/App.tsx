@@ -18,6 +18,7 @@ const Monitor = lazy(() => import("./pages/Monitor"));
 const MonitorTach = lazy(() => import("./pages/MonitorTach"));
 const ThemSun = lazy(() => import("./pages/ThemSun"));
 const DataSet = lazy(() => import("./pages/DataSet"));
+const Leader = lazy(() => import("./pages/Leader"));
 
 function App() {
   const queryClient = new QueryClient();
@@ -41,6 +42,7 @@ function App() {
             <Route path="gettoken" element={<GetToken />} />
             <Route path="themsun" element={<ThemSun />} />
             <Route path="data_set" element={<DataSet />} />
+            <Route path="get_leader" element={<Leader />} />
           </Route>
         </Routes>
       </Suspense>

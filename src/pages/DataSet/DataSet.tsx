@@ -57,6 +57,9 @@ const DataSet = () => {
     setValue("green_chars", "");
     setValue("red_chars", "");
   };
+  const leader = data?.data?.leaderboard.sort(
+    (a: any, b: any) => b.submissions - a.submissions
+  );
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
@@ -193,7 +196,7 @@ const DataSet = () => {
               </div>
 
               <div className="space-y-3">
-                {data?.data?.leaderboard?.map((entry: any, index: number) => (
+                {leader?.map((entry: any, index: number) => (
                   <div
                     key={index}
                     className={`flex items-center justify-between p-3 rounded-lg transition-colors ${
