@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 interface FormData {
   red_chars?: string;
   black_chars?: string;
@@ -31,6 +32,9 @@ const DataSet = () => {
         "https://data_set.phatnguoigiaothong.net/api/create_data_set",
         payload
       );
+      toast.success("Thêm thành công", {
+        position: "top-center",
+      });
       // eslint-disable-next-line no-empty
     } catch (error) {}
     refetch();
@@ -133,7 +137,9 @@ const DataSet = () => {
                 </button>
               </div>
             </form>
-            <p className="text-sm text-red-300">Đang có {data?.data?.total || 0} dữ liệu được thêm</p>
+            <p className="text-sm text-red-300">
+              Đang có {data?.data?.total || 0} dữ liệu được thêm
+            </p>
           </div>
         </div>
       </div>
