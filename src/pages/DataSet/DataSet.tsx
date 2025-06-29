@@ -175,9 +175,6 @@ const DataSet = () => {
                   </div>
                 </form>
                 <p className="text-sm text-red-300">
-                  Đang có {data?.data?.total || 0} dữ liệu được thêm
-                </p>
-                <p className="text-sm text-red-300">
                   Còn lại {data?.data?.con_lai || 0} ảnh (ảnh được thêm tự động
                   sau 2s)
                 </p>
