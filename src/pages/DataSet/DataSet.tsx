@@ -81,7 +81,7 @@ const DataSet = () => {
               <div className="space-y-2">
                 <label
                   htmlFor="field1"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium  text-black"
                 >
                   Chữ màu đen
                 </label>
@@ -98,7 +98,7 @@ const DataSet = () => {
               <div className="space-y-2">
                 <label
                   htmlFor="field1"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block !text-red-500 text-sm font-medium "
                 >
                   Chữ màu đỏ
                 </label>
@@ -114,7 +114,7 @@ const DataSet = () => {
               <div className="space-y-2">
                 <label
                   htmlFor="field1"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-[#00FF00] text-sm font-medium "
                 >
                   Chữ màu xanh
                 </label>
