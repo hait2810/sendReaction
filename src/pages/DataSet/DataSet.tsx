@@ -7,6 +7,7 @@ interface FormData {
   black_chars?: string;
   green_chars?: string;
   img_base64?: string;
+  name?: string;
 }
 const DataSet = () => {
   const { data, refetch, isFetching } = useQuery({
@@ -14,7 +15,7 @@ const DataSet = () => {
     queryFn: async () =>
       await axios.get("https://data_set.phatnguoigiaothong.net/api/get_img"),
   });
-  const { register, handleSubmit, reset } = useForm<FormData>({
+  const { register, handleSubmit, setValue } = useForm<FormData>({
     defaultValues: {
       black_chars: "",
       green_chars: "",
@@ -27,6 +28,7 @@ const DataSet = () => {
     const payload = {
       ...cac,
       img_base64: data?.data?.url,
+      name: cac?.name ? cac?.name.replace(/[^a-zA-Z0-9]/g, "") : "noname",
     };
     try {
       await axios.post(
@@ -38,7 +40,9 @@ const DataSet = () => {
       });
       // eslint-disable-next-line no-empty
     } catch (error) {}
-    reset();
+    setValue("black_chars", "");
+    setValue("green_chars", "");
+    setValue("red_chars", "");
   };
 
   return (
@@ -78,6 +82,21 @@ const DataSet = () => {
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               {/* Field 1 */}
+              <div className="space-y-2">
+                <label
+                  htmlFor="field1"
+                  className="block text-sm font-medium  text-black"
+                >
+                  Tên của mày là gì?
+                </label>
+                <input
+                  id="field1"
+                  type="text"
+                  {...register("name")}
+                  placeholder="Nhập tên mày vào đây"
+                  className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors `}
+                />
+              </div>
               <div className="space-y-2">
                 <label
                   htmlFor="field1"
@@ -140,8 +159,9 @@ const DataSet = () => {
             <p className="text-sm text-red-300">
               Đang có {data?.data?.total || 0} dữ liệu được thêm
             </p>
-             <p className="text-sm text-red-300">
-              Còn lại {data?.data?.con_lai || 0} ảnh (ảnh được thêm tự động sau 2s)
+            <p className="text-sm text-red-300">
+              Còn lại {data?.data?.con_lai || 0} ảnh (ảnh được thêm tự động sau
+              2s)
             </p>
           </div>
         </div>
