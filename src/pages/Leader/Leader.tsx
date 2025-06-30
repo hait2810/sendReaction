@@ -21,8 +21,13 @@ const Leader = () => {
     refetchInterval: 5000,
   });
 
-  const leader = data?.data?.leaderboard.sort(
-    (a: any, b: any) => b.submissions - a.submissions
+  const leader =
+    data?.data?.leaderboard.sort(
+      (a: any, b: any) => b.submissions - a.submissions
+    ) || [];
+  const total = leader?.reduce(
+    (acc: any, cu: any) => (acc += cu.submissions || 0),
+    0
   );
 
   return (
@@ -71,6 +76,7 @@ const Leader = () => {
           </div>
         </div>
       </div>
+      <p className="text-red-600 mt-4">Tổng {total}</p>
     </div>
   );
 };
