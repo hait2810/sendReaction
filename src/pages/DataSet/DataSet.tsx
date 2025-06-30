@@ -39,7 +39,6 @@ const DataSet = () => {
   });
 
   const onSubmit = async (cac: FormData) => {
-    refetch();
     const payload = {
       ...cac,
       img_base64: data?.data?.url,
@@ -55,6 +54,7 @@ const DataSet = () => {
       });
       // eslint-disable-next-line no-empty
     } catch (error) {}
+    refetch();
     setValue("black_chars", "");
     setValue("green_chars", "");
     setValue("red_chars", "");
