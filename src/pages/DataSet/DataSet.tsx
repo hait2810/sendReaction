@@ -176,7 +176,7 @@ const DataSet = () => {
                 </form>
                 <p className="text-sm text-red-300">
                   Còn lại {data?.data?.con_lai || 0} ảnh (ảnh được thêm tự động
-                  sau 20s)
+                  sau 30s)
                 </p>
               </div>
             </div>
