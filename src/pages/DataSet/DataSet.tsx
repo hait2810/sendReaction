@@ -27,6 +27,8 @@ const DataSet = () => {
     queryKey: ["data_set"],
     queryFn: async () =>
       await axios.get("https://data_set.phatnguoigiaothong.net/api/get_img"),
+    retry: 3, // thử lại tối đa 3 lần
+    retryDelay: 1500, // mỗi lần lỗi, chờ 1.5s rồi retry
   });
   const { register, handleSubmit, setValue } = useForm<FormData>({
     defaultValues: {
