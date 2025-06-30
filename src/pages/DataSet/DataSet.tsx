@@ -44,6 +44,9 @@ const DataSet = () => {
       img_base64: data?.data?.url,
       name: cac?.name ? cac?.name.replace(/[^a-zA-Z0-9]/g, "") : "noname",
     };
+    setValue("black_chars", "");
+    setValue("green_chars", "");
+    setValue("red_chars", "");
     try {
       await axios.post(
         "https://data_set.phatnguoigiaothong.net/api/create_data_set",
@@ -53,11 +56,12 @@ const DataSet = () => {
         position: "top-center",
       });
       // eslint-disable-next-line no-empty
-    } catch (error) {}
+    } catch (error: any) {
+      toast.error(error?.response?.data?.error || error?.response?.data, {
+        position: "top-center",
+      });
+    }
     refetch();
-    setValue("black_chars", "");
-    setValue("green_chars", "");
-    setValue("red_chars", "");
   };
   const leader = data?.data?.leaderboard.sort(
     (a: any, b: any) => b.submissions - a.submissions
