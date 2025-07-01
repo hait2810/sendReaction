@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 interface FormData {
@@ -37,6 +38,12 @@ const DataSet = () => {
       red_chars: "",
     },
   });
+  useEffect(() => {
+    setValue("black_chars", data?.data?.black_chars);
+    setValue("green_chars", data?.data?.green_chars);
+    setValue("red_chars", data?.data?.red_chars);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data?.data?.red_chars, data?.data?.black_chars, data?.data?.green_chars]);
 
   const onSubmit = async (cac: FormData) => {
     const payload = {
