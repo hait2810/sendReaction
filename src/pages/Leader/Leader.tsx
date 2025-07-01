@@ -68,7 +68,7 @@ const Leader = () => {
                     <div className="font-bold text-blue-600">
                       {entry.submissions}
                     </div>
-                    <div className="text-xs text-gray-500">lần</div>
+                    <div className="text-xs text-gray-500">điểm</div>
                   </div>
                 </div>
               ))}
