@@ -21,7 +21,7 @@ const Leader = () => {
     queryKey: ["data_set"],
     queryFn: async () =>
       await axios.get("https://data_set.phatnguoigiaothong.net/api/get_leader"),
-    refetchInterval: REFRESH_INTERVAL - 1000,
+    refetchInterval: REFRESH_INTERVAL - 1500,
   });
 
   const [countdown, setCountdown] = useState(REFRESH_INTERVAL / 1000);
