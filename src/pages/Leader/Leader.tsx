@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useEffect, useState } from "react";
-
+import nhat from "./nhat.jpeg";
 const getRankIcon = (rank: number) => {
   switch (rank) {
     case 1:
@@ -21,18 +20,8 @@ const Leader = () => {
     queryKey: ["data_set"],
     queryFn: async () =>
       await axios.get("https://data_set.phatnguoigiaothong.net/api/get_leader"),
-    refetchInterval: REFRESH_INTERVAL - (4 * 1000),
+    refetchInterval: 5 * 1000,
   });
-
-  const [countdown, setCountdown] = useState(REFRESH_INTERVAL / 1000);
-
-  // Countdown timer
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCountdown((prev) => (prev === 1 ? REFRESH_INTERVAL / 1000 : prev - 1));
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
 
   const leader =
     data?.data?.leaderboard.sort(
@@ -49,14 +38,22 @@ const Leader = () => {
           <div className="bg-white rounded-lg shadow-lg p-6">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold text-gray-900">
-                🏆 Bảng xếp hạng (cập nhật sau ~{countdown}s)
+                🏆 Bảng xếp hạng (30s refresh / 1 lần)
               </h2>
               <div className="text-sm text-gray-500">
                 Cập nhật: {new Date().toLocaleTimeString("vi-VN")}
               </div>
             </div>
-
-            <p className="mb-2">{isFetching && "Đang tải dữ liệu..."}</p>
+            {isFetching && (
+              <div className="flex items-center gap-2">
+                <p className="mb-2">Đang tải dữ liệu...</p>
+                <img
+                  src={nhat}
+                  alt="Rotating"
+                  className="w-32 h-32 object-contain  rounded-full animate-spin"
+                />
+              </div>
+            )}
 
             <div className="space-y-3">
               {leader?.map((entry: any, index: number) => (
