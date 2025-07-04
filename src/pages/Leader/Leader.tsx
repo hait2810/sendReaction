@@ -17,7 +17,7 @@ const getRankIcon = (rank: number) => {
 const REFRESH_INTERVAL = 30 * 1000;
 
 const Leader = () => {
-  const { data, isLoading } = useQuery({
+  const { data, isFetching } = useQuery({
     queryKey: ["data_set"],
     queryFn: async () =>
       await axios.get("https://data_set.phatnguoigiaothong.net/api/get_leader"),
@@ -42,7 +42,6 @@ const Leader = () => {
     (acc: any, cu: any) => (acc += cu.submissions || 0),
     0
   );
-  if (isLoading) return <div>Đang tải dữ liệu...</div>;
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
       <div className="max-w-2 mx-auto">
@@ -56,6 +55,8 @@ const Leader = () => {
                 Cập nhật: {new Date().toLocaleTimeString("vi-VN")}
               </div>
             </div>
+
+            <p>{isFetching && "Đang tải dữ liệu..."}</p>
 
             <div className="space-y-3">
               {leader?.map((entry: any, index: number) => (
