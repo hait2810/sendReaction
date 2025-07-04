@@ -18,7 +18,7 @@ const Leader = () => {
     queryKey: ["data_set"],
     queryFn: async () =>
       await axios.get("https://data_set.phatnguoigiaothong.net/api/get_leader"),
-    refetchInterval: 5 * 1000,
+    refetchInterval: 10 * 1000,
   });
 
   const leader =
