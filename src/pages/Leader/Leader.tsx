@@ -14,10 +14,10 @@ const getRankIcon = (rank: number) => {
       return `#${rank}`;
   }
 };
-const REFRESH_INTERVAL = 15000;
+const REFRESH_INTERVAL = 30 * 1000;
 
 const Leader = () => {
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["data_set"],
     queryFn: async () =>
       await axios.get("https://data_set.phatnguoigiaothong.net/api/get_leader"),
@@ -42,7 +42,7 @@ const Leader = () => {
     (acc: any, cu: any) => (acc += cu.submissions || 0),
     0
   );
-
+  if (isLoading) return <div>Đang tải dữ liệu...</div>;
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
       <div className="max-w-2 mx-auto">
