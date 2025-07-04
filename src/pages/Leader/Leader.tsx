@@ -21,7 +21,7 @@ const Leader = () => {
     queryKey: ["data_set"],
     queryFn: async () =>
       await axios.get("https://data_set.phatnguoigiaothong.net/api/get_leader"),
-    refetchInterval: REFRESH_INTERVAL,
+    refetchInterval: REFRESH_INTERVAL - 1000,
   });
 
   const [countdown, setCountdown] = useState(REFRESH_INTERVAL / 1000);
@@ -56,7 +56,7 @@ const Leader = () => {
               </div>
             </div>
 
-            <p>{isFetching && "Đang tải dữ liệu..."}</p>
+            <p className="mb-2">{isFetching && "Đang tải dữ liệu..."}</p>
 
             <div className="space-y-3">
               {leader?.map((entry: any, index: number) => (
