@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useEffect, useState } from "react";
 
 const getRankIcon = (rank: number) => {
   switch (rank) {
@@ -13,13 +14,25 @@ const getRankIcon = (rank: number) => {
       return `#${rank}`;
   }
 };
+const REFRESH_INTERVAL = 15000;
+
 const Leader = () => {
   const { data } = useQuery({
     queryKey: ["data_set"],
     queryFn: async () =>
       await axios.get("https://data_set.phatnguoigiaothong.net/api/get_leader"),
-    refetchInterval: 5000,
+    refetchInterval: REFRESH_INTERVAL,
   });
+
+  const [countdown, setCountdown] = useState(REFRESH_INTERVAL / 1000);
+
+  // Countdown timer
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCountdown((prev) => (prev === 1 ? REFRESH_INTERVAL / 1000 : prev - 1));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const leader =
     data?.data?.leaderboard.sort(
@@ -37,7 +50,7 @@ const Leader = () => {
           <div className="bg-white rounded-lg shadow-lg p-6">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold text-gray-900">
-                🏆 Bảng xếp hạng
+                🏆 Bảng xếp hạng (cập nhật sau {countdown}s)
               </h2>
               <div className="text-sm text-gray-500">
                 Cập nhật: {new Date().toLocaleTimeString("vi-VN")}
