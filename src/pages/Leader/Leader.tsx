@@ -13,8 +13,6 @@ const getRankIcon = (rank: number) => {
       return `#${rank}`;
   }
 };
-const REFRESH_INTERVAL = 30 * 1000;
-
 const Leader = () => {
   const { data, isFetching } = useQuery({
     queryKey: ["data_set"],
