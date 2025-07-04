@@ -21,7 +21,7 @@ const Leader = () => {
     queryKey: ["data_set"],
     queryFn: async () =>
       await axios.get("https://data_set.phatnguoigiaothong.net/api/get_leader"),
-    refetchInterval: REFRESH_INTERVAL - 1500,
+    refetchInterval: REFRESH_INTERVAL - (4 * 1000),
   });
 
   const [countdown, setCountdown] = useState(REFRESH_INTERVAL / 1000);
@@ -49,7 +49,7 @@ const Leader = () => {
           <div className="bg-white rounded-lg shadow-lg p-6">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold text-gray-900">
-                🏆 Bảng xếp hạng (cập nhật sau {countdown}s)
+                🏆 Bảng xếp hạng (cập nhật sau ~{countdown}s)
               </h2>
               <div className="text-sm text-gray-500">
                 Cập nhật: {new Date().toLocaleTimeString("vi-VN")}
