@@ -56,6 +56,7 @@ const DataSetNew = () => {
       colors,
     };
     setValue("full_text", "");
+    setValue("colors", "");
     try {
       await axios.post(
         "https://data_set.phatnguoigiaothong.net/api/create_data_set_new",
