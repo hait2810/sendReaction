@@ -7,6 +7,7 @@ interface FormData {
   full_text?: string;
   img_base64?: string;
   name?: string;
+  colors: string;
 }
 
 const getRankIcon = (rank: number) => {
@@ -25,13 +26,11 @@ const DataSetNew = () => {
   const { data, refetch, isFetching } = useQuery({
     queryKey: ["data_set_new"],
     queryFn: async () =>
-      await axios.get(
-        "https://data_set.phatnguoigiaothong.net/api/get_img_new"
-      ),
+      await axios.get("https://data_set.phatnguoigiaothong.net/api/get_img"),
     retry: 3, // thử lại tối đa 3 lần
     retryDelay: 1500, // mỗi lần lỗi, chờ 1.5s rồi retry
   });
-  const { register, handleSubmit, setValue } = useForm<FormData>({
+  const { register, handleSubmit, setValue, getValues } = useForm<FormData>({
     defaultValues: {
       full_text: "",
     },
@@ -40,12 +39,21 @@ const DataSetNew = () => {
     setValue("full_text", data?.data?.full_text);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data?.data?.full_text]);
+  const validColors = new Set(["red", "green", "black"]);
 
   const onSubmit = async (cac: FormData) => {
+    const colors = cac.colors.split("|");
+
+    const invalidColors = colors.filter((color) => !validColors.has(color));
+
+    if (invalidColors.length > 0 || colors.length !== 6) {
+      return toast.error(`Màu không hợp lệ: ${invalidColors.join(", ")}`);
+    }
     const payload = {
       ...cac,
       img_base64: data?.data?.url,
       name: cac?.name ? cac?.name.replace(/[^a-zA-Z0-9]/g, "") : "noname",
+      colors,
     };
     setValue("full_text", "");
     try {
@@ -67,6 +75,16 @@ const DataSetNew = () => {
   const leader = data?.data?.leaderboard.sort(
     (a: any, b: any) => b.submissions - a.submissions
   );
+
+  const handleColor = (color: string) => {
+    const colors = getValues("colors");
+    if (colors) {
+      const colorsAfter = colors + `|${color}`;
+      setValue("colors", colorsAfter);
+    } else {
+      setValue("colors", color);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
@@ -133,6 +151,38 @@ const DataSetNew = () => {
                       id="field1"
                       type="text"
                       {...register("full_text")}
+                      placeholder="Nhập text"
+                      className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors `}
+                    />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => handleColor("red")}
+                      className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center text-white font-bold hover:bg-red-600 transition-colors duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+                    ></button>
+                    <button
+                      type="button"
+                      onClick={() => handleColor("black")}
+                      className="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white font-bold hover:bg-black transition-colors duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+                    ></button>
+                    <button
+                      type="button"
+                      onClick={() => handleColor("green")}
+                      className="w-8 h-8 bg-[#00ff00] rounded-full flex items-center justify-center text-white font-bold hover:bg-[#00ff00] transition-colors duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+                    ></button>
+                  </div>
+                  <div className="space-y-2">
+                    <label
+                      htmlFor="field1"
+                      className="block text-sm font-medium  text-black"
+                    >
+                      Nhập color
+                    </label>
+                    <input
+                      id="field1"
+                      type="text"
+                      {...register("colors")}
                       placeholder="Nhập text"
                       className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors `}
                     />
