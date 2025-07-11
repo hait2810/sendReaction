@@ -37,8 +37,9 @@ const DataSetNew = () => {
   });
   useEffect(() => {
     setValue("full_text", data?.data?.full_text);
+    setValue("colors", data?.data?.colors);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data?.data?.full_text]);
+  }, [data?.data?.full_text, data?.data?.colors]);
   const validColors = new Set(["red", "green", "black"]);
 
   const onSubmit = async (cac: FormData) => {
