@@ -14,7 +14,7 @@ interface MonitorData {
 }
 
 const socket: Socket<ServerToClientEvents, object> = io(
-  "https://linhtinh.vidieu.net/"
+  "https://linhtinh2.vidieu.net/"
 );
 
 const MonitorTach = () => {
