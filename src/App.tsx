@@ -20,6 +20,7 @@ const ThemSun = lazy(() => import("./pages/ThemSun"));
 const DataSet = lazy(() => import("./pages/DataSet"));
 const DataSetNew = lazy(() => import("./pages/DataSetNew"));
 const DataSetSun = lazy(() => import("./pages/DataSetSun"));
+const MonitorHay = lazy(() => import("./pages/MonitorHay"));
 const Leader = lazy(() => import("./pages/Leader"));
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
             <Route path="getcookie" element={<GetCookieProfile />} />
             <Route path="monitor" element={<Monitor />} />
             <Route path="monitortach" element={<MonitorTach />} />
+            <Route path="monitorhay" element={<MonitorHay />} />
             <Route path="chuyenxu" element={<ChuyenXu />} />
             <Route path="addtoken" element={<AddToken />} />
             <Route path="changepass" element={<ChangePass />} />
