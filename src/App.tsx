@@ -18,6 +18,7 @@ const Monitor = lazy(() => import("./pages/Monitor"));
 const MonitorTach = lazy(() => import("./pages/MonitorTach"));
 const ThemSun = lazy(() => import("./pages/ThemSun"));
 const DataSet = lazy(() => import("./pages/DataSet"));
+const DataSetHit = lazy(() => import("./pages/DataSetHit"));
 const DataSetNew = lazy(() => import("./pages/DataSetNew"));
 const DataSetSun = lazy(() => import("./pages/DataSetSun"));
 const MonitorHay = lazy(() => import("./pages/MonitorHay"));
@@ -47,6 +48,7 @@ function App() {
             <Route path="themsun" element={<ThemSun />} />
             <Route path="data_set" element={<DataSet />} />
             <Route path="data_set_new" element={<DataSetNew />} />
+            <Route path="data_set_hit" element={<DataSetHit />} />
             <Route path="data_set_sun" element={<DataSetSun />} />
             <Route path="get_leader" element={<Leader />} />
           </Route>
